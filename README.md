@@ -1,5 +1,6 @@
 # Miinaharava
 Peli on tehty C# kielellä visual studion Windows Formssia käyttäen.
+Sovelluksessa on kaksi formia Form1 ja Peli. Form1 on menu formi, josta valitaan vaikeustaso. Peli formi avautuu vaikeustason valitsemisen jälkeen, siihen generoituu ruudut vaikeustason perusteella.
 
 # SÄÄNNÖT
 Pelissä pitää merkitä kaikki miinat ja kääntää ruudut joiden alla ei ole miinaa voittaakseen. 

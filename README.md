@@ -1,2 +1,2 @@
-Miinaharava peli
-Peli on tehty visual studion C# formssilla
+
+Peli on tehty visual studion Windows Formssilla C# kielellä

@@ -80,6 +80,8 @@ namespace _17Miinaharava
                 miinojenMaara = 99;
             }
 
+            miinatLabel.Text = miinojenMaara.ToString();
+
             LisaaRuudukko(); //lisää ruudukon ja luo napit
 
             ArvoMiinat(); //arpoo satunnaisiin ruutuihin miinoja vaikeustason perusteella
@@ -153,6 +155,11 @@ namespace _17Miinaharava
             {
                 int r1 = rnd.Next(0, kokoVER);
                 int r2 = rnd.Next(0, kokoHOR);
+                while (ruudukkoListat[r1][r2].Tag == "-1")
+                {
+                     r1 = rnd.Next(0, kokoVER);
+                     r2 = rnd.Next(0, kokoHOR);
+                }
                 ruudukkoListat[r1][r2].Tag = "-1";
 
                 miinojenMaara -= 1;
@@ -177,7 +184,7 @@ namespace _17Miinaharava
                     ruudukkoListat[i][x].Name = i.ToString() + "_" + x.ToString();
                     ruudukkoListat[i][x].BackgroundImageLayout = ImageLayout.Stretch;
                     ruudukkoListat[i][x].Font = ruutujenFontti;
-                    ruudukkoListat[i][x].Click += new EventHandler(ClickRuutu);
+                    ruudukkoListat[i][x].MouseDown += new MouseEventHandler(ClickRuutu);
                     ruudukkoListat[i][x].BackColor = Color.LightGray;
 
                     ruutuX += ruudunKoko;
@@ -189,7 +196,7 @@ namespace _17Miinaharava
             }
         }
 
-        private void ClickRuutu(object sender, EventArgs e)
+        private void ClickRuutu(object sender, MouseEventArgs e)
         {
             Button PainettuNappi = sender as Button;
 
@@ -198,12 +205,14 @@ namespace _17Miinaharava
             int tokaIndex = int.Parse(indeksit[1]);
             int ekaIndex = int.Parse(indeksit[0]);
 
-            if (lippuActivated) //laittaa lipun
+            if (lippuActivated || e.Button == MouseButtons.Right) //laittaa lipun
             {
                 if (PainettuNappi.BackgroundImage == null && PainettuNappi.Text == "")
                 {
                     PainettuNappi.BackgroundImage = kuvat[0];
                     PainettuNappi.ForeColor = Color.Black;
+                    miinatLabel.Text = (int.Parse(miinatLabel.Text.ToString())-1).ToString();
+
                     if (PainettuNappi.Tag == "-1")
                     {
                         miinojaArvattuOikein += 1;
@@ -212,6 +221,8 @@ namespace _17Miinaharava
                 else if (PainettuNappi.BackgroundImage == kuvat[0])
                 {
                     PainettuNappi.BackgroundImage = null;
+
+                    miinatLabel.Text = (int.Parse(miinatLabel.Text.ToString()) + 1).ToString();
 
                     if (PainettuNappi.Tag == "-1")
                     {
@@ -348,7 +359,7 @@ namespace _17Miinaharava
         }
         private void PoistaKulmat(int x, int y) //tarkistaa kulmat jotka normaalisti jäisi pelkästään tarkastamalla suoraan horisontaalisesti ja vertikaalisesti tarkastamatta
         {
-            for (int i = -1; i < 2; i++)
+            for (int i = -1; i < 2; i+=2)
             {
                 try
                 {
@@ -451,5 +462,6 @@ namespace _17Miinaharava
                 flagbutton.BackgroundImage = kuvat[0];
             }
         }
+        
     }
 }
